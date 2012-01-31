@@ -1,0 +1,14 @@
+# Upstart: /etc/systemd/system/sensu-client.service
+# Managed by OpsChef
+
+[Unit]
+Description=sensu client
+
+[Service]
+User=<%= node.sensu.user %>
+Group=<%= node.sensu.user %>
+ExecStart=<%= node.sensu.bin_path %>/sensu-client<% if @options %> <%= @options %><% end %>
+
+[Install]
+WantedBy=multi-user.target
+

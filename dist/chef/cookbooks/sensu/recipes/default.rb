@@ -39,7 +39,7 @@ when "debian", "ubuntu"
     source "sudoers.erb"
     mode 0440
   end
-when "centos", "redhat"
+when "centos", "redhat", "fedora"
   %w[
     openssl-devel
     gcc
