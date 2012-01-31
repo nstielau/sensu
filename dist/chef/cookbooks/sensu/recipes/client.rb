@@ -44,4 +44,17 @@ when "centos", "redhat"
     supports :restart => true
     subscribes :restart, resources(:file => File.join(node.sensu.directory, "config.json"), :execute => "gem_update"), :delayed
   end
+when "fedora"
+  template "/etc/systemd/system/sensu-client.service" do
+    source "systemd.erb"
+    variables :options => "-l #{node.sensu.log.directory}/sensu.log"
+    mode 0755
+  end
+
+  service "sensu-client.service" do
+    action [:enable, :start]
+    supports :restart => true
+    subscribes :restart, resources(:file => File.join(node.sensu.directory, "config.json"), :execute => "gem_update"), :delayed
+    provider Chef::Provider::Service::Systemd
+  end
 end
